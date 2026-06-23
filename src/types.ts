@@ -1,12 +1,5 @@
 export interface InstagramAccount {
   username: string;
-  href?: string;
-  timestamp?: number;
-}
-
-export interface InstagramData {
-  followers: InstagramAccount[];
-  following: InstagramAccount[];
 }
 
 export type ResultCategory =
@@ -18,4 +11,27 @@ export interface ComparisonResult {
   notFollowingBack: InstagramAccount[];
   youDoNotFollowBack: InstagramAccount[];
   mutual: InstagramAccount[];
+}
+
+export type CaptureKind = "followers" | "following";
+
+export interface CaptureSnapshot {
+  kind: CaptureKind;
+  accountUsername: string;
+  capturedAt: string;
+  capturedTotal: number;
+  accounts: InstagramAccount[];
+}
+
+export interface StoredAnalysis {
+  version: 2;
+  sessionId: string;
+  accountUsername: string;
+  captures: Partial<Record<CaptureKind, CaptureSnapshot>>;
+}
+
+export interface CaptureProgress {
+  kind: CaptureKind;
+  collected: number;
+  message: string;
 }

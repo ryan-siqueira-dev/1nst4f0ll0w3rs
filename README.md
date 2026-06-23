@@ -1,47 +1,116 @@
 # 1nst4f0ll0w3rs
 
-Aplicação web que compara os seguidores e as contas seguidas usando a
-exportação oficial do Instagram. Todo o processamento acontece localmente no
-navegador.
+Extensão para navegadores Chromium que compara seguidores e contas seguidas
+diretamente no Instagram Web. Não é preciso solicitar uma exportação nem
+enviar arquivos: a captura e a comparação acontecem no próprio navegador.
 
-## Funcionalidades
+## O que a extensão faz
 
-- Importação direta do ZIP oficial, sem descompactar.
-- Suporte a exportações divididas em `followers_1.json`,
-  `followers_2.json` etc.
-- Lista de quem não segue você de volta.
-- Lista de quem você não segue de volta.
-- Lista de seguidores mútuos.
-- Busca por nome de usuário e exportação CSV.
-- Nenhum login, senha, backend ou envio de dados.
+- Captura as listas de **Seguidores** e **Seguindo** exibidas pelo Instagram.
+- Percorre automaticamente cada lista até confirmar que chegou ao fim.
+- Compara somente duas capturas completas feitas no mesmo perfil.
+- Mostra quem não segue de volta, quem não é seguido de volta e os seguidores
+  mútuos.
+- Permite buscar contas e exportar cada resultado em CSV.
+- Mantém as capturas no armazenamento local da extensão.
 
-## Executar
+## Como usar
 
-Requer Node.js 20 ou superior.
+1. Abra o Instagram Web e acesse o perfil que deseja analisar.
+2. No painel da extensão, capture **Seguidores**.
+3. Capture **Seguindo** sem trocar de perfil.
+4. Consulte a comparação ou exporte uma categoria em CSV.
+
+Durante a captura, mantenha a aba aberta e não feche a lista que o Instagram
+exibir. Perfis com muitas contas podem levar alguns minutos.
+
+Ao refazer uma das capturas, a comparação anterior é apagada para evitar a
+mistura de listas obtidas em momentos diferentes.
+
+## Privacidade
+
+Todo o processamento acontece localmente:
+
+- a extensão não solicita login ou senha;
+- não há backend, telemetria ou envio das listas para terceiros;
+- não são usadas APIs privadas nem requisições próprias ao Instagram;
+- os dados ficam em `chrome.storage.local` até o usuário apagá-los;
+- a extensão tem acesso somente a `https://www.instagram.com/*`.
+
+A permissão `storage` é usada apenas para manter as duas capturas e o resultado
+entre navegações.
+
+## Riscos e uso responsável
+
+Esta extensão é uma ferramenta independente e não oficial. Ela automatiza a
+abertura e a rolagem das listas exibidas pelo Instagram Web para ler os nomes de
+usuário que aparecem no DOM da página. Esse comportamento pode ser interpretado
+pelo Instagram/Meta como coleta automatizada de dados ou scraping, mesmo quando
+iniciado manualmente pelo usuário.
+
+Use por sua conta e risco. O Instagram pode alterar a interface, limitar a
+captura, exigir verificação, bloquear temporariamente ações da conta ou aplicar
+outras restrições se detectar atividade considerada automatizada ou incomum.
+
+Recomendações:
+
+- use apenas em contas e perfis que você tem autorização para analisar;
+- não use em massa, em muitos perfis ou em execuções repetidas;
+- mantenha intervalos razoáveis entre capturas;
+- não compartilhe CSVs ou listas capturadas sem consentimento das pessoas
+  envolvidas;
+- leia e respeite os Termos de Uso do Instagram e as políticas da Meta.
+
+Este projeto não garante conformidade com os Termos do Instagram/Meta e não é
+afiliado, patrocinado ou mantido pelo Instagram ou pela Meta.
+
+## Instalação local
+
+Requisitos:
+
+- Node.js 20 ou superior;
+- Chrome, Edge, Brave ou outro navegador compatível com extensões Manifest V3.
 
 ```bash
 npm install
-npm run dev
+npm run build
 ```
 
-## Testes e build
+Depois:
+
+1. Abra a página de extensões do navegador.
+2. Ative o modo de desenvolvedor.
+3. Escolha **Carregar sem compactação**.
+4. Selecione a pasta `dist`.
+5. Abra ou recarregue `https://www.instagram.com`.
+
+Depois de alterar o código, execute `npm run build` e recarregue a extensão.
+
+## Desenvolvimento
+
+O projeto usa React, TypeScript e Vite. O build gera um content script único,
+injetado nas páginas do Instagram. A interface é isolada da página por Shadow
+DOM.
 
 ```bash
+npm run test:watch
 npm test
 npm run build
 ```
 
-## Como gerar o arquivo
+Principais arquivos:
 
-No Instagram:
+- `src/content.tsx`: injeta e monta o painel da extensão;
+- `src/App.tsx`: coordena capturas, armazenamento e comparação;
+- `src/lib/instagram-dom.ts`: localiza, percorre e valida as listas;
+- `src/lib/storage.ts`: persiste as capturas localmente;
+- `public/manifest.json`: configura permissões e content script.
 
-1. Abra **Central de Contas**.
-2. Entre em **Suas informações e permissões**.
-3. Selecione **Baixar suas informações**.
-4. Escolha a conta e **Algumas das suas informações**.
-5. Marque **Seguidores e seguindo**.
-6. Use o período **Desde o início** e o formato **JSON**.
-7. Baixe o ZIP e envie-o diretamente à aplicação.
+## Limitações
 
-O Instagram pode alterar os nomes e a localização dos menus. A aplicação não é
-afiliada ao Instagram ou à Meta.
+Mudanças na estrutura da interface do Instagram podem interromper a captura.
+Quando não consegue confirmar o fim da lista, a extensão interrompe a operação
+e não salva aquela captura como concluída. O resultado corresponde ao conteúdo
+que o Instagram Web disponibilizou no momento da captura.
+
+O projeto não é afiliado, patrocinado ou mantido pelo Instagram ou pela Meta.

@@ -2,17 +2,15 @@
   "name": "1nst4f0ll0w3rs",
   "private": true,
   "version": "0.1.0",
+  "description": "Extensão local para comparar seguidores e contas seguidas diretamente no Instagram Web.",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json && vite build",
-    "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.4.1",
-    "jszip": "^3.10.1",
     "vite": "^6.3.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
