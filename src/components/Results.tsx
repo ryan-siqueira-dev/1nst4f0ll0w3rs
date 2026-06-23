@@ -8,7 +8,7 @@ import type {
 
 interface ResultsProps {
   result: ComparisonResult;
-  filename: string;
+  accountUsername: string;
 }
 
 const categories: Array<{
@@ -19,20 +19,20 @@ const categories: Array<{
 }> = [
   {
     key: "notFollowingBack",
-    label: "Não seguem você",
-    description: "Você segue, mas não recebe o follow de volta.",
+    label: "Não seguem de volta",
+    description: "Estão em Seguindo, mas não em Seguidores.",
     csvName: "nao-seguem-de-volta.csv",
   },
   {
     key: "youDoNotFollowBack",
-    label: "Você não segue",
-    description: "Seguem você, mas você não segue de volta.",
+    label: "Você não segue de volta",
+    description: "Estão em Seguidores, mas não em Seguindo.",
     csvName: "voce-nao-segue-de-volta.csv",
   },
   {
     key: "mutual",
-    label: "Seguidores mútuos",
-    description: "Vocês seguem um ao outro.",
+    label: "Mútuos",
+    description: "Estão presentes nas duas listas.",
     csvName: "seguidores-mutuos.csv",
   },
 ];
@@ -40,9 +40,6 @@ const categories: Array<{
 function AccountRow({ account }: { account: InstagramAccount }) {
   return (
     <li>
-      <div className="avatar" aria-hidden="true">
-        {account.username[0]?.toLocaleUpperCase()}
-      </div>
       <span>@{account.username}</span>
       <a
         href={`https://instagram.com/${account.username}`}
@@ -50,17 +47,16 @@ function AccountRow({ account }: { account: InstagramAccount }) {
         rel="noreferrer"
         aria-label={`Abrir perfil de ${account.username}`}
       >
-        Abrir perfil ↗
+        Abrir ↗
       </a>
     </li>
   );
 }
 
-export function Results({ result, filename }: ResultsProps) {
+export function Results({ result, accountUsername }: ResultsProps) {
   const [active, setActive] =
     useState<ResultCategory>("notFollowingBack");
   const [query, setQuery] = useState("");
-
   const category = categories.find((item) => item.key === active)!;
   const accounts = result[active];
   const filtered = useMemo(() => {
@@ -74,10 +70,8 @@ export function Results({ result, filename }: ResultsProps) {
   return (
     <section className="results" aria-live="polite">
       <div className="result-heading">
-        <div>
-          <span className="eyebrow">Análise concluída</span>
-          <h2>Resultado de {filename}</h2>
-        </div>
+        <span className="eyebrow">Comparação concluída</span>
+        <h2>@{accountUsername}</h2>
       </div>
 
       <div className="summary-grid">
@@ -102,7 +96,7 @@ export function Results({ result, filename }: ResultsProps) {
         <div className="list-toolbar">
           <div>
             <h3>{category.label}</h3>
-            <p>{filtered.length.toLocaleString("pt-BR")} contas exibidas</p>
+            <p>{filtered.length.toLocaleString("pt-BR")} contas</p>
           </div>
           <div className="toolbar-actions">
             <label className="search">
@@ -111,7 +105,7 @@ export function Results({ result, filename }: ResultsProps) {
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Buscar @usuário"
+                placeholder="Buscar conta"
               />
             </label>
             <button
