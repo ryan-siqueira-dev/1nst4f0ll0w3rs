@@ -1,8 +1,14 @@
 # 1nst4f0ll0w3rs
 
+> Projeto experimental de estudo. A extensão depende da estrutura atual do Instagram Web e pode deixar de funcionar quando a plataforma mudar. Não há publicação na Chrome Web Store.
+
 Extensão para navegadores Chromium que compara seguidores e contas seguidas
 diretamente no Instagram Web. Não é preciso solicitar uma exportação nem
 enviar arquivos: a captura e a comparação acontecem no próprio navegador.
+
+## Demonstração
+
+A extensão ainda não possui vídeo ou captura de tela versionada. Para avaliá-la, faça o build e carregue a pasta `dist` em um navegador Chromium conforme as instruções de instalação.
 
 ## O que a extensão faz
 
@@ -114,3 +120,27 @@ e não salva aquela captura como concluída. O resultado corresponde ao conteúd
 que o Instagram Web disponibilizou no momento da captura.
 
 O projeto não é afiliado, patrocinado ou mantido pelo Instagram ou pela Meta.
+
+## Decisões técnicas
+
+- Manifest V3 com permissão restrita a `https://www.instagram.com/*`;
+- processamento e armazenamento locais, sem backend;
+- Shadow DOM para reduzir conflitos entre os estilos da extensão e da página;
+- capturas incompletas não são salvas como resultados válidos;
+- testes automatizados para comparação, sessão, armazenamento e leitura do DOM.
+
+## Aspectos para revisar antes de apresentar
+
+Antes de usar o projeto em uma entrevista, é importante conseguir explicar o fluxo do content script, o isolamento por Shadow DOM, a persistência em `chrome.storage.local`, as condições de parada da captura e os riscos de depender do DOM de uma plataforma externa.
+
+## Melhorias futuras
+
+- adicionar uma demonstração visual real;
+- dividir a lógica de captura em unidades menores;
+- revisar acessibilidade do painel injetado;
+- avaliar um nome mais legível para o repositório;
+- acompanhar alterações do Instagram e das políticas da Meta.
+
+## Autor
+
+Ryan Siqueira — [GitHub](https://github.com/ryan-siqueira-dev)
