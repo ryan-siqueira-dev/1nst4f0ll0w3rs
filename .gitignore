@@ -4,3 +4,6 @@ dist
 *.local
 coverage
 *.zip
+.env
+.env.*
+!.env.example
