@@ -1,8 +1,8 @@
 {
-  "name": "1nst4f0ll0w3rs",
+  "name": "instagram-unfollow-checker",
   "private": true,
   "version": "0.1.0",
-  "description": "Extensão local para comparar seguidores e contas seguidas diretamente no Instagram Web.",
+  "description": "Extensão Chromium que compara seguidores/seguindo no Instagram Web localmente, sem envio de dados",
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json && vite build",

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "1nst4f0ll0w3rs",
+  "name": "Instagram Unfollow Checker",
   "version": "1.0.0",
   "description": "Compare seguidores e contas seguidas diretamente no Instagram, com captura e análise locais.",
   "permissions": ["storage"],

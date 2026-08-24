@@ -1,4 +1,4 @@
-# 1nst4f0ll0w3rs
+# Instagram Unfollow Checker
 
 Extensão para navegadores Chromium que compara seguidores e contas seguidas
 diretamente no Instagram Web. Não é preciso solicitar uma exportação nem
